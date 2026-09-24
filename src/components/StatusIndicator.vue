@@ -1,10 +1,9 @@
 <template>
-  <div
-    class="rounded-full inline-block"
-    :class="{
-      'bg-green-400': status,
-      'bg-red-500': !status,
-    }"
+  <span
+    class="inline-block rounded-full"
+    :class="status ? 'bg-online' : 'bg-offline'"
+    role="img"
+    :aria-label="status ? '在线' : '离线'"
   />
 </template>
 

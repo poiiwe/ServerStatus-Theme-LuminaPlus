@@ -4,13 +4,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ServerStatus</title>
+  <title>ServerStatus · LuminaPlus</title>
   <link rel="shortcut icon" href="/src/assets/favicon.png" type="image/x-icon">
+  <script>
+    // 首屏防闪烁：在 Vue 挂载前根据本地偏好设置 dark class 与外观变量
+    (function () {
+      try {
+        var raw = localStorage.getItem('sstl-theme') || 'auto'
+        var mode = raw.replace(/^"|"$/g, '')
+        var dark = mode === 'dark'
+          || (mode !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.toggle('dark', dark)
+        var s = JSON.parse(localStorage.getItem('sstl-settings') || '{}')
+        if (typeof s.darkDepth === 'number')
+          document.documentElement.style.setProperty('--dark-depth', String(s.darkDepth))
+        if (typeof s.surfaceAlpha === 'number')
+          document.documentElement.style.setProperty('--surface-alpha', String(s.surfaceAlpha))
+      }
+      catch (e) { }
+    })()
+  </script>
 </head>
 
 <body>
   <div class="px-3 sm:px-6 min-h-screen relative">
-    <h1 class="text-4xl font-bold py-4">
+    <h1 class="text-2xl font-semibold py-3">
       服务器监控
     </h1>
     <noscript>
@@ -18,11 +36,11 @@
       <p><strong>Please enable JavaScript to view this page.</strong></p>
     </noscript>
     <div id="app"></div>
-    <div class="text-center absolute left-0 bottom-0 py-4 w-full">
-      Powered by <a class="text-blue-500" href="https://github.com/zdz/ServerStatus-Rust"
+    <div class="text-center absolute left-0 bottom-0 py-4 w-full text-muted-foreground">
+      Powered by <a class="text-primary hover:underline" href="https://github.com/zdz/ServerStatus-Rust"
         target="_blank">ServerStatus-Rust</a>.
-      Theme <a class="text-blue-500" href="https://github.com/orilights/ServerStatus-Theme-Light"
-        target="_blank">Light</a> by <a class="text-blue-500" href="https://orilight.top/" target="_blank">OriLight</a>
+      Theme <a class="text-primary hover:underline" href="https://github.com/guboysky/LuminaPlus"
+        target="_blank">LuminaPlus</a> (ServerStatus 移植版)
     </div>
   </div>
   <script type="module" src="/src/main.ts"></script>

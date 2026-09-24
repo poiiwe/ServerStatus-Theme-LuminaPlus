@@ -26,3 +26,6 @@ dist-ssr
 
 
 .env*
+# 构建时自动生成（unplugin-auto-import / unplugin-vue-components）
+auto-imports.d.ts
+components.d.ts

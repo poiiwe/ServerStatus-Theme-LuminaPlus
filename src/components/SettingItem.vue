@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center justify-between">
-    {{ title }}
+  <div class="flex items-center justify-between gap-2">
+    <Label>{{ title }}</Label>
     <slot />
   </div>
 </template>

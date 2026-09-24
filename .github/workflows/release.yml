@@ -17,17 +17,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Enable corepack
-        run: corepack enable
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Build
-        run: pnpm i && pnpm build
+        run: npm ci && npm run build
 
       - name: Zip Build
         uses: TheDoctor0/zip-release@0.6.2

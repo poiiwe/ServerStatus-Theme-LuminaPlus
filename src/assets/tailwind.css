@@ -1,3 +1,122 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* 表格横向滚动条：常驻可见（macOS 悬浮滚动条默认不可见，需显式定义） */
+  .table-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 120, 128, 0.45) transparent;
+  }
+  .table-scrollbar::-webkit-scrollbar {
+    height: 8px;
+  }
+  .table-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .table-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(120, 120, 128, 0.45);
+    border-radius: 9999px;
+  }
+  .table-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 120, 128, 0.75);
+  }
+}
+
+@layer base {
+  /* LuminaPlus 调色板（浅色） */
+  :root {
+    --background: #f4f4f5;
+    --foreground: #18181b;
+    --card: color-mix(in srgb, #ffffff calc(var(--surface-alpha, 100) * 1%), transparent);
+    --card-foreground: #18181b;
+    --popover: #ffffff;
+    --popover-foreground: #18181b;
+    --primary: 59 130 246;
+    --primary-foreground: 255 255 255;
+    --secondary: #f4f4f5;
+    --secondary-foreground: #18181b;
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a;
+    --accent: #f4f4f5;
+    --accent-foreground: #18181b;
+    --destructive: 220 38 38;
+    --destructive-foreground: 255 255 255;
+    --border: #e4e4e7;
+    --input: #e4e4e7;
+    --ring: 59 130 246;
+    --radius: 0.75rem;
+
+    --online: 47 158 101;
+    --online-foreground: 255 255 255;
+    --offline: 220 38 38;
+    --offline-foreground: 255 255 255;
+
+    /* 度量强调色 */
+    --metric-cpu: #3b82f6;
+    --metric-memory: #8b5cf6;
+    --metric-disk: #e0823d;
+    --metric-load: #e275ad;
+    --metric-network: #10b981;
+    --metric-swap: #6366f1;
+    --traffic-up: #3b82f6;
+    --traffic-down: #2f9e65;
+    --progress-bg: #e4e4e7;
+  }
+
+  /* LuminaPlus 调色板（深色），--dark-depth 控制加深程度，--surface-alpha 控制卡片不透明度 */
+  .dark {
+    --_bg-base: color-mix(in srgb, #212830, #000 calc(var(--dark-depth, 0) * 1%));
+    --_surface-base: color-mix(in srgb, #262c36, #080a0d calc(var(--dark-depth, 0) * 1%));
+    --_surface-elev-base: color-mix(in srgb, #2a313c, #101318 calc(var(--dark-depth, 0) * 1%));
+    --_sunken-base: color-mix(in srgb, #151b23, #030405 calc(var(--dark-depth, 0) * 1%));
+    --_border-base: color-mix(in srgb, #3d444d, #2d333b calc(var(--dark-depth, 0) * 1%));
+    --_progress-bg-base: color-mix(in srgb, #343b45, #24282e calc(var(--dark-depth, 0) * 1%));
+
+    --background: var(--_bg-base);
+    --foreground: #d1d7e0;
+    --card: color-mix(in srgb, var(--_surface-base) calc(var(--surface-alpha, 100) * 1%), transparent);
+    --card-foreground: #d1d7e0;
+    --popover: var(--_surface-base);
+    --popover-foreground: #d1d7e0;
+    --primary: 83 155 245;
+    --primary-foreground: 255 255 255;
+    --secondary: var(--_surface-elev-base);
+    --secondary-foreground: #d1d7e0;
+    --muted: var(--_sunken-base);
+    --muted-foreground: #9198a1;
+    --accent: var(--_surface-elev-base);
+    --accent-foreground: #d1d7e0;
+    --destructive: 244 112 103;
+    --destructive-foreground: 33 40 48;
+    --border: var(--_border-base);
+    --input: var(--_border-base);
+    --ring: 83 155 245;
+
+    --online: 87 171 90;
+    --online-foreground: 255 255 255;
+    --offline: 244 112 103;
+    --offline-foreground: 33 40 48;
+
+    --metric-cpu: #539bf5;
+    --metric-memory: #b083f0;
+    --metric-disk: #e97b35;
+    --metric-load: #ec4899;
+    --metric-network: #57ab5a;
+    --metric-swap: #986ee2;
+    --traffic-up: #539bf5;
+    --traffic-down: #57ab5a;
+    --progress-bg: var(--_progress-bg-base);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, 'SF Pro SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

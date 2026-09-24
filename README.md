@@ -1,60 +1,39 @@
-# ServerStatus Theme Light
+# ServerStatus Theme LuminaPlus
 
-<details>
-<summary>界面截图</summary>
+基于 [LuminaPlus](https://github.com/guboysky/LuminaPlus) 设计、使用 Vue 3 + shadcn/ui + Tailwind CSS 重构的 [ServerStatus-Rust](https://github.com/zdz/ServerStatus-Rust) 第三方主题。
 
-CPU 占用率图表
-![screenshot 3](docs/screenshot3.png)
-
-卡片布局
-![screenshot 1](docs/screenshot1.png)
-
-列表式布局
-![screenshot 2](docs/screenshot2.png)
-
-</details>
-
-在线预览: [sstl-demo.orilight.top](https://sstl-demo.orilight.top/)
-
-## 简介
-
-使用 Vue 与 Tailwind CSS 构建的 ServerStatus 主题
-
-基于 [zdz/ServerStatus-Rust](https://github.com/zdz/ServerStatus-Rust) 开发
-
-已兼容的 ServerStatus 实现（仅使用实例站点数据测试，不保证完全兼容，遇到问题请提 Issue）:
-
-- [zdz/ServerStatus-Rust](https://github.com/zdz/ServerStatus-Rust)
-- [cppla/ServerStatus](https://github.com/cppla/ServerStatus)
-- [BotoX/ServerStatus](https://github.com/BotoX/ServerStatus)
+界面设计移植自 LuminaPlus，移除了原版中 ServerStatus-Rust 不支持的功能，并做了大量性能与交互优化。
 
 ## 特性
 
-- 卡片式/列表式布局
-- 响应式界面
-- CPU占用率图表
-- 不支持三网 Ping 和丢包数据的显示
+- 🌓 **明暗主题**：深色 / 浅色 / 跟随系统三种模式，首屏防闪烁，深色深度可调
+- 🧩 **shadcn/ui 组件体系**：组件源码全部在 `src/components/ui/` 下，完全可控、便于二次定制
+- 📇 **两种视图**：迷你卡片 / 列表，按地区分组筛选、排序
+- 📈 **CPU 记录折线图**：按需开启，懒初始化 + 降采样渲染，多节点同屏不卡顿
+- 🌏 **三网延迟/丢包**：电信 / 联通 / 移动分运营商展示（数据来自客户端探测）
+- 📱 **响应式**：窄屏自动折列 + 横向滚动，适配手机端
+- ♿ **可访问性**：语义化标签、ARIA 属性、键盘可操作
 
-## 使用
+## 构建
 
-前往 [Release](https://github.com/orilights/ServerStatus-Theme-Light/releases) 下载 `dist.zip` 解压替换原主题即可
-
-也可自行打包构建:
-
-```shell
-# 需要 NodeJS 环境并安装 pnpm 包管理器
-
-# 安装依赖
-pnpm i
-
-# 打包构建
-pnpm build
+```bash
+npm install
+npm run build   # 产物在 dist/
 ```
 
-打包完成后使用 dist 目录内文件替换原主题即可
+将 `dist/` 内容部署到 ServerStatus-Rust 的 `web/` 目录（或交给 nginx 直接服务）即可，服务端无需任何改动。详见 [DEPLOY](../DEPLOY.md)。
 
-具体操作请看 [github.com/zdz/ServerStatus-Rust#6-faq](https://github.com/zdz/ServerStatus-Rust#6-faq) 中的 **如何使用自定义主题**
+## 部署提示
 
-## 感谢
+- ServerStatus-Rust 的默认二进制会把主题**编译时嵌入** `web/` 目录，替换主题需重新编译或用 nginx 托管静态文件
+- 主题仅消费 `/json/stats.json` 标准字段，兼容 [zdz/ServerStatus-Rust](https://github.com/zdz/ServerStatus-Rust)（三网延迟字段缺失时显示「—」）
 
-- [zdz/ServerStatus-Rust](https://github.com/zdz/ServerStatus-Rust)
+## 致谢
+
+- 设计原型：[guboysky/LuminaPlus](https://github.com/guboysky/LuminaPlus)
+- 主题框架：[orilights/ServerStatus-Theme-Light](https://github.com/orilights/ServerStatus-Theme-Light)（本项目在其基础上重构）
+- 服务端：[zdz/ServerStatus-Rust](https://github.com/zdz/ServerStatus-Rust)
+
+## License
+
+[MIT](./LICENSE)

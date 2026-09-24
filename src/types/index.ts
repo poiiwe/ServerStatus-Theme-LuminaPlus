@@ -12,6 +12,14 @@ export interface ServerData {
   load_1: number
   load_5: number
   load_15: number
+  /** 各运营商丢包率（%） */
+  ping_10010: number
+  ping_189: number
+  ping_10086: number
+  /** 各运营商延迟（ms） */
+  time_10010: number
+  time_189: number
+  time_10086: number
   tcp_count: number
   udp_count: number
   process_count: number
@@ -23,6 +31,8 @@ export interface ServerData {
   last_network_in: number
   last_network_out: number
   cpu: number
+  /** CPU 核数，服务端从 sys_info 透出；可能缺失 */
+  cpu_num?: number
   memory_total: number
   memory_used: number
   swap_total: number
