@@ -26,6 +26,14 @@ jobs:
       - name: Build Theme
         run: npm ci && npm run build
 
+      - name: Debug Build Failure
+        if: failure()
+        run: |
+          echo "=== npm logs ==="
+          tail -80 /home/runner/.npm/_logs/*.log 2>/dev/null || true
+          echo "=== versions ==="
+          node -v; npm -v; npx vue-tsc --version || true
+
       - name: Zip Theme
         uses: TheDoctor0/zip-release@0.6.2
         with:
