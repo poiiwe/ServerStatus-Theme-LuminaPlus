@@ -14,6 +14,13 @@
 - 📱 **响应式**：窄屏自动折列 + 横向滚动，适配手机端
 - ♿ **可访问性**：语义化标签、ARIA 属性、键盘可操作
 
+## 界面预览
+
+| | 🃏 卡片视图 | 📋 列表视图 |
+| :---: | :---: | :---: |
+| **🌙 深色** | ![深色卡片视图](docs/screenshot-dark-card.png) | ![深色列表视图](docs/screenshot-dark-list.png) |
+| **☀️ 浅色** | ![浅色卡片视图](docs/screenshot-light-card.png) | ![浅色列表视图](docs/screenshot-light-list.png) |
+
 ## 使用说明
 
 ### 1. 构建主题
