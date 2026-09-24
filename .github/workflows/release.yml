@@ -5,7 +5,7 @@ on:
     tags:
       - 'v*'
 
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,19 +23,54 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
 
-      - name: Build
+      - name: Build Theme
         run: npm ci && npm run build
 
-      - name: Zip Build
+      - name: Zip Theme
         uses: TheDoctor0/zip-release@0.6.2
         with:
           filename: ../dist.zip
           directory: ./dist/
-      
+
+      - name: Install Cross Toolchains
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      - name: Setup Rust
+        run: |
+          rustup target add x86_64-unknown-linux-gnu
+          rustup target add aarch64-unknown-linux-gnu
+
+      - name: Checkout ServerStatus-Rust
+        uses: actions/checkout@v3
+        with:
+          repository: zdz/ServerStatus-Rust
+          path: serverstatus
+
+      - name: Embed Theme into web/
+        # 合并而非替换：web/jinja 里的服务端模板必须保留
+        run: cp -r dist/. serverstatus/web/
+
+      - name: Build stat_server (x86_64)
+        working-directory: serverstatus
+        run: |
+          cargo build --release --bin stat_server --target x86_64-unknown-linux-gnu
+          mv target/x86_64-unknown-linux-gnu/release/stat_server ../stat_server-x86_64-linux-gnu
+
+      - name: Build stat_server (aarch64)
+        working-directory: serverstatus
+        run: |
+          cargo build --release --bin stat_server --target aarch64-unknown-linux-gnu
+          mv target/aarch64-unknown-linux-gnu/release/stat_server ../stat_server-aarch64-linux-gnu
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist.zip
+          files: |
+            dist.zip
+            stat_server-x86_64-linux-gnu
+            stat_server-aarch64-linux-gnu
 
       - name: Generate Changelog
         run: npx changelogithub

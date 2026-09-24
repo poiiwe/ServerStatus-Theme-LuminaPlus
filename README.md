@@ -74,14 +74,41 @@ server {
 
 #### 方式 B：重新编译服务端（无 nginx、直连 stat_server 的部署）
 
-把 `dist/` 内容放入 ServerStatus-Rust 源码仓库的 `web/` 目录（替换原有内容），重新编译：
+把 `dist/` 内容放入 ServerStatus-Rust 源码仓库的 `web/` 目录（**合并拷贝，保留 `web/jinja/` 服务端模板目录**），重新编译：
 
 ```bash
 cd ServerStatus-Rust
-rm -rf web && cp -R /路径/ServerStatus-Theme-LuminaPlus/dist web
+cp -r /路径/ServerStatus-Theme-LuminaPlus/dist/. web/
 cargo build --release
 # 用新的 target/release/stat_server 替换线上二进制并重启服务
 ```
+
+##### 发行包：已嵌入主题的 stat_server 二进制
+
+每个 Release 页除了主题 `dist.zip`，还提供**已嵌入本主题**的 `stat_server` 预编译二进制（基于 zdz/ServerStatus-Rust 源码构建）：
+
+| 文件 | 适用环境 |
+| --- | --- |
+| `stat_server-x86_64-linux-gnu` | 主流 x86_64 Linux（glibc，Ubuntu/Debian/CentOS 等） |
+| `stat_server-aarch64-linux-gnu` | ARM64 Linux（Ampere Altra、树莓派 4/5 64 位等） |
+
+使用方法：
+
+```bash
+# 上传后替换线上二进制
+chmod +x stat_server-x86_64-linux-gnu
+systemctl stop statserver
+mv /opt/ServerStatus/stat_server /opt/ServerStatus/stat_server.old
+mv stat_server-x86_64-linux-gnu /opt/ServerStatus/stat_server
+/opt/ServerStatus/stat_server -t -c /opt/ServerStatus/config.toml   # 配置自检
+systemctl start statserver
+```
+
+说明：
+- 二进制**不包含** `config.toml`，沿用你服务器上现有的配置即可（服务端向后兼容旧配置）
+- 构建基于 zdz/ServerStatus-Rust 源码主干，功能与官方最新版一致
+- Alpine（musl）或其他架构请按上方「自行编译」一节构建
+- 替换主题后浏览器需强制刷新（Ctrl/Cmd+Shift+R）跳过缓存
 
 #### 方式 C：已有 web/ 目录的源码部署
 
